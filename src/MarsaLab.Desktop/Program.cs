@@ -167,7 +167,7 @@ internal sealed class MarsaMainForm : Form
         var shared = new Panel { Dock = DockStyle.Fill, Padding = new Padding(8) };
         var st = new Label { Text = "Bagikan file ke siswa", Font = new Font("Segoe UI Semibold", 13, FontStyle.Bold), Dock = DockStyle.Top, Height = 30 };
         var sb = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 42 };
-        sb.Controls.Add(Button("Unggah file…", () => _ = UploadFilesAsync(), true)); sb.Controls.Add(Button("Hapus file terpilih", DeleteSharedFileAsync)); sb.Controls.Add(Button("Muat ulang", () => _ = LoadSharedFilesAsync()));
+        sb.Controls.Add(Button("Unggah file…", () => _ = UploadFilesAsync(), true)); sb.Controls.Add(Button("Hapus file terpilih", () => _ = DeleteSharedFileAsync())); sb.Controls.Add(Button("Muat ulang", () => _ = LoadSharedFilesAsync()));
         ConfigureGrid(_files); _files.Dock = DockStyle.Fill; _files.Columns.Add(TextCol("Name", "Nama file", 360)); _files.Columns.Add(TextCol("Size", "Ukuran", 120)); _files.Columns.Add(TextCol("Modified", "Diunggah", 220));
         shared.Controls.Add(_files); shared.Controls.Add(sb); shared.Controls.Add(st); split.Panel1.Controls.Add(shared);
         var tasks = new Panel { Dock = DockStyle.Fill, Padding = new Padding(8) };
