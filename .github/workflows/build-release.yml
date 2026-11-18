@@ -35,6 +35,9 @@ jobs:
       - name: Build Client
         run: dotnet publish .\src\MarsaLab.Client\MarsaLab.Client.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -p:DebugType=none -o .\dist\client
 
+      - name: Build Gateway (Linux)
+        run: dotnet publish .\src\MarsaLab.Gateway\MarsaLab.Gateway.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -p:DebugType=none -o .\dist\gateway
+
       - name: Pasang Inno Setup
         run: choco install innosetup -y --no-progress
 
@@ -46,6 +49,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit 1 }
           & $iscc "/DAppVersion=1.0.${{ github.run_number }}" src\installer\client.iss
           if ($LASTEXITCODE -ne 0) { exit 1 }
+
+      - name: Paketkan Gateway
+        shell: pwsh
+        run: Compress-Archive -Path .\dist\gateway\* -DestinationPath .\out\MarsaLab-Gateway-linux.zip
 
       - name: Simpan hasil build
         uses: actions/upload-artifact@v4
